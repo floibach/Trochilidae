@@ -61,8 +61,10 @@ public class TabCreator {
 	private void FillPanels()
 	{
 		_tabs = new ArrayList<MyTab>();
-		Tab tabFactory = new Tab();
+		TabFactory tabFactory = new TabFactory();
+		
 		_tabs.add(tabFactory.CreateGuestTab());
+		_tabs.add(null);
 	}
 
 

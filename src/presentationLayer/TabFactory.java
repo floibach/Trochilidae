@@ -16,7 +16,7 @@ import entities.MyTab;
 import entities.Equipment.Equipment;
 import entities.Equipment.Equipments;
 
-public class Tab 
+public class TabFactory 
 {
 	
 	

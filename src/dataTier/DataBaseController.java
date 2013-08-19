@@ -11,7 +11,7 @@ public class DataBaseController
 	private static String username = "root";
 	private static String password = "root";
 	private static String driver = "com.mysql.jdbc.Driver";
-	private static String url = "jdbc:mysql://localhost:3306/World";
+	private static String url = "jdbc:mysql://localhost:3306/trochilidae";
 	private static Connection connection;
 	
 	private DataBaseController()

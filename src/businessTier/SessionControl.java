@@ -1,13 +1,11 @@
 package businessTier;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import businessTier.User.User;
 import businessTier.User.UserRole;
 
-import dataTier.DataBaseController;
+import dataTier.UserAdministration;
 
 public class SessionControl 
 {
@@ -26,12 +24,9 @@ public class SessionControl
 		return _instance;
 	}
 	
-	public static String test; 
 	public static void Login(String userName, String password)
 	{
-		String query = "SELECT * FROM world.user where user.userName = '"+userName + "'";
-		ResultSet results = DataBaseController.GetResults(query);
-		ArrayList<String> singleResult = ConvertResults(results);
+		ArrayList<String> singleResult = UserAdministration.GetSingleUserInformation(userName, password);
 		
 		//The length of the list has to be 3 because there are stored: name (index 0), password(index 1) and role(index 2)
 		if(singleResult.size()==3)
@@ -61,28 +56,5 @@ public class SessionControl
 	public User getUser()
 	{
 		return _user;
-	}
-	
-	private static ArrayList<String> ConvertResults(ResultSet resultSet)
-	{
-		ArrayList<String> results = new ArrayList<String>();
-		try 
-		{
-			while (resultSet.next()) 
-			{
-				String name = resultSet.getString(2).toString();
-				String password = resultSet.getString(3).toString();
-				String role = resultSet.getString(4).toString();
-				
-				results.add(name);
-				results.add(password);
-				results.add(role);
-			}
-		} 
-		catch (SQLException e) 
-		{
-			e.printStackTrace();
-		}
-		return results;
 	}
 }

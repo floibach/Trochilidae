@@ -4,5 +4,6 @@ public enum UserRole
 {
 	Administrator, 
 	TechAss, 
-	Reception
+	Reception,
+	Invisible
 }

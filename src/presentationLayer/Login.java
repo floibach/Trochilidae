@@ -40,8 +40,9 @@ public class Login {
 
 	/**
 	 * Create the application.
+	 * @wbp.parser.entryPoint
 	 */
-	public Login() {
+	public Login() {		
 		initialize();
 	}
 
@@ -72,12 +73,18 @@ public class Login {
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
+				SessionControl.Login(userName.getText(), CharArray.ToString(password.getPassword()));
 				if(null == SessionControl.Instance().getUser())
 				{
-					JOptionPane.showMessageDialog(null, "d","Hallo", JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(null, "NEIN", "Nein", 0);
 				}
-				
-				SessionControl.Login(userName.getText(), CharArray.ToString(password.getPassword()));
+				if(null != SessionControl.Instance().getUser())
+				{
+					JOptionPane.showMessageDialog(null, "Jou", "Nein", 3);
+					frame.setVisible(false);
+					new TabCreator();
+				}
+					
 			}
 		});
 		button.setBounds(246, 143, 70, 22);

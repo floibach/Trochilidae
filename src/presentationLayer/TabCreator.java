@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 
 import entities.MyTab;
 
+import javax.swing.ImageIcon;
 import javax.swing.JTabbedPane;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -64,7 +65,6 @@ public class TabCreator {
 		TabFactory tabFactory = new TabFactory();
 		
 		_tabs.add(tabFactory.CreateGuestTab());
-		_tabs.add(null);
 	}
 
 
@@ -75,6 +75,7 @@ public class TabCreator {
 		frame.setBounds(100, 100, 700, 480);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		frame.setIconImage(new ImageIcon("./Lib/ico.png").getImage());
 		
 		_tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		_tabbedPane.setBounds(0, 22, 694, 430);

@@ -27,8 +27,7 @@ public class SessionControl
 	public static void Login(String userName, String password)
 	{
 		ArrayList<String> singleResult = UserAdministration.GetSingleUserInformation(userName, password);
-		
-		//The length of the list has to be 3 because there are stored: name (index 0), password(index 1) and role(index 2)
+				
 		if(singleResult.size()==3)
 		{
 			if(PasswordsAreEqual(singleResult.get(1),password))

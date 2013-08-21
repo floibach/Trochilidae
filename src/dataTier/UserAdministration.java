@@ -8,7 +8,7 @@ public class UserAdministration
 {
 	public static ArrayList<String> GetSingleUserInformation(String userName, String userPassword)
 	{		
-		String query = "SELECT * FROM trochilidae.user where user.userName = '"+userName + "'";		
+		String query = "SELECT * FROM user where user.userName = '"+userName + "'";		
 		ArrayList<String> singleResult = ConvertResults(DataBaseController.GetResults(query));
 		
 		return singleResult;

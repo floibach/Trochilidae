@@ -51,6 +51,7 @@ public class TabFactory
 		return new MyTab(UserRole.Invisible, panel, "EditGuest");
 	}
 	
+	//TODO: return type panel und 2 Panels kombinieren
 	public MyTab CreateGuestTab()
 	{
 		final JPanel createGuest = new JPanel();

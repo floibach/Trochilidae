@@ -41,6 +41,21 @@ public class DataBaseController
 		return results;
     }
 	
+	public static void ExecuteQuery(String query)
+	{
+		connect();
+		
+		try
+		{
+			Statement stmt = connection.createStatement();
+			stmt.executeUpdate(query);
+		}
+		catch(SQLException e)
+		{
+			System.err.println(e.toString());
+		}
+	}
+	
 	private static void connect() 
 	{
 		try {

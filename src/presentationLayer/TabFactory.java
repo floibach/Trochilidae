@@ -1,20 +1,24 @@
 package presentationLayer;
 
+import helpers.MyString;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import businessTier.User.UserRole;
 
+import entities.MyDate;
 import entities.MyTab;
 import entities.Equipment.Equipment;
 import entities.Equipment.Equipments;
+import entities.Guest.Guest;
 
 public class TabFactory 
 {
@@ -52,19 +56,21 @@ public class TabFactory
 	}
 	
 	//TODO: return type panel und 2 Panels kombinieren
+	JTextField preName;
+	JTextField lastName;
+	JTextField zipCode;
+	JTextField city;
+	JTextField streetNumber;
+	JTextField streetName;
+	JTextField idNumber;
+	JTextField birthDay;
+	JTextField birthMonth;
+	JTextField birthYear;
+	JComboBox<String> equipment;
 	public MyTab CreateGuestTab()
 	{
 		final JPanel createGuest = new JPanel();
-		JTextField preName;
-		JTextField lastName;
-		JTextField zipCode;
-		JTextField city;
-		JTextField streetNumber;
-		JTextField streetName;
-		JTextField idNumber;
-		JTextField birthDay;
-		JTextField birthMonth;
-		JTextField birthYear;
+
 		
 		final JPanel test1 = new JPanel();
 		JLabel lblNameTest = new JLabel("Prename");
@@ -79,13 +85,48 @@ public class TabFactory
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
+				MyDate birthdate;
+				//TODO: Refactor
+				if(preName.getText().equals(MyString.Empty()))
+				{
+					JOptionPane.showMessageDialog(null, "Prename is required", "Fehler",0);
+					return;
+				}
 				
+				if(lastName.getText().equals(MyString.Empty()))
+				{
+					JOptionPane.showMessageDialog(null, "Lastname is required", "Fehler",0);
+					return;
+				}
+				
+				if(idNumber.getText().equals(MyString.Empty()))
+				{
+					JOptionPane.showMessageDialog(null, "ID number is required", "Fehler",0);
+					return;
+				}
+				
+				if(birthYear.getText().equals(MyString.Empty()) | birthMonth.getText().equals(MyString.Empty()) | birthDay.getText().equals(MyString.Empty()))
+				{
+					JOptionPane.showMessageDialog(null, "Birthday is required", "Fehler",0);
+					return;
+				}
+				
+				try 
+				{
+					birthdate = new MyDate(birthYear.getText(), birthMonth.getText(), birthDay.getText());
+					new Guest(	preName.getText(),lastName.getText(),Integer.parseInt(zipCode.getText()),city.getText(),
+							streetName.getText(), streetNumber.getText(), idNumber.getText(),birthdate,equipment.getSelectedIndex());
+				} 
+				catch (Exception e) 
+				{
+					JOptionPane.showMessageDialog(null, e.getMessage(), "Fehler",0);
+				}
 			}
 		});
 		safe.setBounds(480, 300, 89, 23);
 		createGuest.add(safe);
 		
-		JLabel lblName = new JLabel("Prename");
+		JLabel lblName = new JLabel("Prename*");
 		lblName.setBounds(10, 11, 70, 14);
 		createGuest.add(lblName);
 		
@@ -99,7 +140,7 @@ public class TabFactory
 		createGuest.add(lastName);
 		lastName.setColumns(10);
 		
-		JLabel lblLastname = new JLabel("Lastname");
+		JLabel lblLastname = new JLabel("Lastname*");
 		lblLastname.setBounds(10, 42, 70, 14);
 		createGuest.add(lblLastname);
 		
@@ -136,7 +177,7 @@ public class TabFactory
 		createGuest.add(idNumber);
 		idNumber.setColumns(10);
 		
-		JLabel lblIdNumber = new JLabel("ID number");
+		JLabel lblIdNumber = new JLabel("ID number*");
 		lblIdNumber.setBounds(10, 135, 66, 14);
 		createGuest.add(lblIdNumber);
 		
@@ -145,7 +186,7 @@ public class TabFactory
 		createGuest.add(birthDay);
 		birthDay.setColumns(10);
 		
-		JLabel lblBirthdayddmmyyyy = new JLabel("Birthday (DD.MM.YYYY)");
+		JLabel lblBirthdayddmmyyyy = new JLabel("Birthday (DD.MM.YYYY)*");
 		lblBirthdayddmmyyyy.setBounds(10, 166, 140, 14);
 		createGuest.add(lblBirthdayddmmyyyy);
 		
@@ -159,7 +200,7 @@ public class TabFactory
 		createGuest.add(birthYear);
 		birthYear.setColumns(10);
 		
-		JComboBox<String> equipment = new JComboBox<String>();
+		equipment = new JComboBox<String>();
 		ArrayList<Equipment> equipments = Equipments.Instance().GetEquipments();
 		for(Equipment equ : equipments)
 		{

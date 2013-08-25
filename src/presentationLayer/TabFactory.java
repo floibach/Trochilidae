@@ -18,7 +18,10 @@ import entities.MyDate;
 import entities.MyTab;
 import entities.Equipment.Equipment;
 import entities.Equipment.Equipments;
+import entities.Guest.Address;
 import entities.Guest.Guest;
+import entities.VehicularData.VehicularData;
+import entities.VehicularData.VehicularDatas;
 
 public class TabFactory 
 {
@@ -52,7 +55,17 @@ public class TabFactory
 	public MyTab EditGuest()
 	{
 		JPanel panel = new JPanel();
+		panel.add(CreateGuestTab());
+		
 		return new MyTab(UserRole.Invisible, panel, "EditGuest");
+	}
+	
+	public MyTab CreateGuests()
+	{
+		JPanel panel = new JPanel();
+		panel.setLayout(null);
+		panel.add(CreateGuestTab());
+		return new MyTab(UserRole.Reception, panel, "Create Guest");
 	}
 	
 	//TODO: return type panel und 2 Panels kombinieren
@@ -67,17 +80,12 @@ public class TabFactory
 	JTextField birthMonth;
 	JTextField birthYear;
 	JComboBox<String> equipment;
-	public MyTab CreateGuestTab()
+	JComboBox<String> vehicularData;
+	private JPanel CreateGuestTab()
 	{
 		final JPanel createGuest = new JPanel();
-
-		
-		final JPanel test1 = new JPanel();
-		JLabel lblNameTest = new JLabel("Prename");
-		lblNameTest.setBounds(10, 11, 46, 25);
-		test1.add(lblNameTest);
-		
-		
+		createGuest.setVisible(true);
+		createGuest.setBounds(10, 11, 694, 430);	
 		createGuest.setLayout(null);
 		
 		JButton safe = new JButton("Safe");
@@ -114,8 +122,8 @@ public class TabFactory
 				try 
 				{
 					birthdate = new MyDate(birthYear.getText(), birthMonth.getText(), birthDay.getText());
-					new Guest(	preName.getText(),lastName.getText(),Integer.parseInt(zipCode.getText()),city.getText(),
-							streetName.getText(), streetNumber.getText(), idNumber.getText(),birthdate,equipment.getSelectedIndex());
+					Address address = new Address( city.getText(),Integer.parseInt(zipCode.getText()),streetName.getText(), streetNumber.getText());
+					new Guest(	preName.getText(),lastName.getText(),address, idNumber.getText(),birthdate,equipment.getSelectedIndex());
 				} 
 				catch (Exception e) 
 				{
@@ -213,6 +221,19 @@ public class TabFactory
 		lblEquipment.setBounds(10, 203, 66, 14);
 		createGuest.add(lblEquipment);
 		
-		return new MyTab(UserRole.Reception, createGuest, "Create Guest");
+		vehicularData = new JComboBox<String>();
+		ArrayList<VehicularData> vehiculars = VehicularDatas.Instance().getVehicularDatas();
+		for(VehicularData v : vehiculars)
+		{
+			vehicularData.addItem(v.get_licensePlate());
+		}
+		vehicularData.setBounds(180, 231, 273, 23);
+		createGuest.add(vehicularData);
+		
+		JLabel lblVehicularPlate = new JLabel("Vehicular Plate");
+		lblVehicularPlate.setBounds(10, 235, 112, 14);
+		createGuest.add(lblVehicularPlate);
+		
+		return createGuest;
 	}
 }

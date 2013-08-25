@@ -64,7 +64,7 @@ public class TabCreator {
 		_tabs = new ArrayList<MyTab>();
 		TabFactory tabFactory = new TabFactory();
 		
-		_tabs.add(tabFactory.CreateGuestTab());
+		_tabs.add(tabFactory.CreateGuests());
 	}
 
 

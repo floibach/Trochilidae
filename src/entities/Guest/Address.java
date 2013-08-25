@@ -9,7 +9,10 @@ public class Address
 	
 	public Address(String city, int zip, String street, String streetNumber)
 	{
-		
+		_city = city;
+		_zip = zip;
+		_street = street;
+		_streetNumber = streetNumber;
 	}
 
 	public String get_city() {

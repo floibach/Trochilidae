@@ -18,6 +18,22 @@ public class MyDate
 		throw new Exception("Hallo");
 	}
 	
+	public MyDate(String date) throws Exception
+	{
+		String year = date.substring(0, 4);
+		String month = date.substring(5, 7);
+		String day = date.substring(8, 10);
+		
+		if(Validate(month, day))
+		{
+			_year = Integer.parseInt(year);
+			_month = Integer.parseInt(month);
+			_day = Integer.parseInt(day);
+			return;
+		}
+		throw new Exception("Hallo");
+	}
+	
 	public MyDate(int year, int month, int day) throws Exception
 	{
 		if(Validate(month, day))

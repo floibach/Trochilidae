@@ -17,11 +17,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 
 import businessTier.SessionControl;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Login {
 
 	private JFrame frame;
 	private JPasswordField password;
+	private TextField userName;
 
 	/**
 	 * Launch the application.
@@ -65,7 +68,7 @@ public class Login {
 		frame.getContentPane().setLayout(null);
 		frame.setIconImage(new ImageIcon("./Lib/ico.png").getImage());
 		
-		final TextField userName = new TextField();
+		userName = new TextField();
 		userName.setBounds(91, 52, 225, 22);
 		frame.getContentPane().add(userName);
 		
@@ -74,7 +77,7 @@ public class Login {
 		frame.getContentPane().add(lblName);
 		
 		JLabel lblPassword = new JLabel("Password:");
-		lblPassword.setBounds(21, 118, 66, 14);
+		lblPassword.setBounds(21, 96, 66, 14);
 		frame.getContentPane().add(lblPassword);
 		
 		Button button = new Button("Login");
@@ -82,18 +85,7 @@ public class Login {
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				SessionControl.Login(userName.getText(), CharArray.ToString(password.getPassword()));
-				if(null == SessionControl.Instance().getUser())
-				{
-					JOptionPane.showMessageDialog(null, "NEIN", "Nein", 0);
-				}
-				if(null != SessionControl.Instance().getUser())
-				{
-					JOptionPane.showMessageDialog(null, "Jou", "Nein", 3);
-					frame.setVisible(false);
-					new TabCreator();
-				}
-					
+				Validate();
 			}
 		});
 		button.setBounds(246, 143, 70, 22);
@@ -106,7 +98,33 @@ public class Login {
 		frame.getContentPane().add(lblTrochilidae);
 		
 		password = new JPasswordField();
-		password.setBounds(91, 114, 225, 22);
+		password.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) 
+			{
+				if(e.getKeyCode()==10)
+				{
+					Validate();
+				}
+			}
+		});
+		password.setBounds(91, 92, 225, 22);
 		frame.getContentPane().add(password);
+	}
+	
+	private void Validate()
+	{
+		SessionControl.Login(userName.getText(), CharArray.ToString(password.getPassword()));
+		if(null == SessionControl.Instance().getUser())
+		{
+			JOptionPane.showMessageDialog(null, "NEIN", "Nein", 0);
+		}
+		if(null != SessionControl.Instance().getUser())
+		{
+			JOptionPane.showMessageDialog(null, "Jou", "Nein", 3);
+			frame.setVisible(false);
+			new TabCreator();
+		}
+		
 	}
 }

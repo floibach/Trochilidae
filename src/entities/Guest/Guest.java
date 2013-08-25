@@ -12,7 +12,7 @@ public class Guest
 	private Address _address;
 	private int _equipment;
 	
-	public Guest(	String preName, String lastName, Address address, String idNumber, MyDate birthday, int equipment)
+	public Guest(String preName, String lastName, Address address, String idNumber, MyDate birthday, int equipment)
 	{
 		_preName = preName;
 		_lastName = lastName;

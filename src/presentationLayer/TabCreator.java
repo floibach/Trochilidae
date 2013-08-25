@@ -1,5 +1,6 @@
 package presentationLayer;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.util.ArrayList;
 
@@ -58,9 +59,10 @@ public class TabCreator {
 	{
 		for(MyTab tab : _tabs)
 		{
+			//TODO
 			//if(SessionControl.Instance().getUser().getUserRole()==tab.GetUserRole())
 			{
-				_tabbedPane.addTab("Create Guest",null, tab.GetPanel(), null);
+				_tabbedPane.addTab(tab.GetTitle(),null, tab.GetPanel(), null);
 			}
 		}
 	}
@@ -69,7 +71,8 @@ public class TabCreator {
 	{
 		_tabs = new ArrayList<MyTab>();
 		TabFactory tabFactory = new TabFactory();
-		
+
+		_tabs.add(tabFactory.CreateReservation());
 		_tabs.add(tabFactory.CreateGuests());
 	}
 
@@ -79,12 +82,14 @@ public class TabCreator {
 		frame = new JFrame();
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 700, 480);
+		frame.setBackground(new Color(51,153,255));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setIconImage(new ImageIcon("./Lib/ico.png").getImage());
 		
 		_tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		_tabbedPane.setBounds(0, 22, 694, 430);
+		_tabbedPane.setBackground(new Color(51,153,255));
 		frame.getContentPane().add(_tabbedPane);
 				
 		menuBar = new JMenuBar();

@@ -5,6 +5,8 @@ import helpers.MyString;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -21,6 +23,7 @@ import entities.Equipment.Equipment;
 import entities.Equipment.Equipments;
 import entities.Guest.Address;
 import entities.Guest.Guest;
+import entities.Guest.Guests;
 import entities.VehicularData.VehicularData;
 import entities.VehicularData.VehicularDatas;
 
@@ -47,37 +50,168 @@ public class TabFactory
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		panel.add(Reservation());
+		panel.add(EditGuest());
+		panel.add(SelectPitch());
 		return new MyTab(UserRole.Reception, panel, "New Reservation");
 	}
 	
+	JPanel editGuest;
+	JButton btnCancel;
+	private JPanel EditGuest()
+	{
+		editGuest = CreateGuest();
+		btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				editGuest.setVisible(false);
+				reservation.setVisible(true);
+			}
+		});
+		
+		//TODO: add Cancel Button, change safe button
+		btnCancel.setBounds(268, 277, 89, 23);
+		
+		editGuest.add(btnCancel);
+		editGuest.setVisible(false);
+		return editGuest;
+	}
+	
+	private JPanel SelectPitch()
+	{
+		JPanel panel = new JPanel();
+		return panel;
+	}
+	
+	private JTextField pitches;
+	private JTextField arrivalDay;
+	private JTextField endDay;
+	private JTextField arrivalMonth;
+	private JTextField arrivalYear;
+	private JTextField endMonth;
+	private JTextField endYear;
+	private JPanel reservation;
+	private JLabel lblGuest;
+	private JComboBox<String> guestList;
+	private JLabel lblBegin;
+	private JLabel lblEnd;
+	private JLabel lblPitch;
+	private JButton btnSafe;
+	private JButton btnEdit;
 	private JPanel Reservation()
 	{
-		return new JPanel();
-	}
-	
-	public MyTab CreatePitch()
-	{
-		JPanel panel = new JPanel();
-		return new MyTab(UserRole.Invisible, panel, "Pitch");
-	}
-	
-	public MyTab EditGuest()
-	{
-		JPanel panel = new JPanel();
-		panel.add(CreateGuestTab());
+		reservation = new JPanel();
+		reservation.setVisible(true);
+		reservation.setBounds(10, 11, 694, 430);
+		reservation.setBackground(new Color(51,153,255));
+		reservation.setLayout(null);
 		
-		return new MyTab(UserRole.Invisible, panel, "EditGuest");
+		lblGuest = new JLabel("Guest ");
+		lblGuest.setBounds(10, 11, 46, 14);
+		reservation.add(lblGuest);
+		
+		guestList = new JComboBox<String>();
+		guestList.setBounds(180, 8, 272, 20);
+		ArrayList<Guest> guests = Guests.Instance().GetGuests();
+		for(Guest g : guests)
+		{
+			guestList.addItem(g.get_idNumber());
+		}
+		reservation.add(guestList);
+		
+		lblBegin = new JLabel("Begin");
+		lblBegin.setBounds(10, 76, 64, 14);
+		reservation.add(lblBegin);
+		
+		lblEnd = new JLabel("End");
+		lblEnd.setBounds(10, 107, 46, 14);
+		reservation.add(lblEnd);
+		
+		lblPitch = new JLabel("Pitch");
+		lblPitch.setBounds(10, 138, 79, 14);
+		reservation.add(lblPitch);
+		
+		pitches = new JTextField();
+		pitches.addMouseListener(new MouseAdapter() 
+		{
+			@Override
+			public void mouseClicked(MouseEvent arg0) 
+			{
+
+			}
+		});
+		pitches.setBounds(180, 135, 272, 20);
+		reservation.add(pitches);
+		pitches.setColumns(10);
+		
+		arrivalDay = new JTextField();
+		arrivalDay.setBounds(180, 73, 60, 20);
+		reservation.add(arrivalDay);
+		arrivalDay.setColumns(10);
+		
+		endDay = new JTextField();
+		endDay.setBounds(180, 104, 60, 20);
+		reservation.add(endDay);
+		endDay.setColumns(10);
+				
+		btnSafe = new JButton("Safe");
+		btnSafe.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+			}
+		});
+		btnSafe.setBounds(363, 166, 89, 23);
+		reservation.add(btnSafe);
+		
+		btnEdit = new JButton("edit");
+		btnEdit.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				reservation.setVisible(false);
+				editGuest.setVisible(true);
+			}
+		});
+		btnEdit.setBounds(363, 39, 89, 23);
+		reservation.add(btnEdit);
+		
+		arrivalMonth = new JTextField();
+		arrivalMonth.setBounds(250, 73, 60, 20);
+		reservation.add(arrivalMonth);
+		arrivalMonth.setColumns(10);
+		
+		arrivalYear = new JTextField();
+		arrivalYear.setBounds(320, 73, 132, 20);
+		reservation.add(arrivalYear);
+		arrivalYear.setColumns(10);
+		
+		endMonth = new JTextField();
+		endMonth.setBounds(250, 104, 60, 20);
+		reservation.add(endMonth);
+		endMonth.setColumns(10);
+		
+		endYear = new JTextField();
+		endYear.setBounds(320, 104, 132, 20);
+		reservation.add(endYear);
+		endYear.setColumns(10);
+		
+		return reservation;
 	}
+	
+
 	
 	public MyTab CreateGuests()
 	{
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
-		panel.add(CreateGuestTab());
+		panel.add(CreateGuest());
 		return new MyTab(UserRole.Reception, panel, "Create Guest");
 	}
 	
 	//TODO: return type panel und 2 Panels kombinieren
+	JPanel createGuest;
 	JTextField preName;
 	JTextField lastName;
 	JTextField zipCode;
@@ -90,9 +224,9 @@ public class TabFactory
 	JTextField birthYear;
 	JComboBox<String> equipment;
 	JComboBox<String> vehicularData;
-	private JPanel CreateGuestTab()
+	private JPanel CreateGuest()
 	{
-		final JPanel createGuest = new JPanel();
+		createGuest = new JPanel();
 		createGuest.setVisible(true);
 		createGuest.setBounds(10, 11, 694, 430);	
 		createGuest.setLayout(null);

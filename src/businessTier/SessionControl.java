@@ -52,6 +52,11 @@ public class SessionControl
 		Instance()._user = new User(userName, password, test);
 	}
 	
+	public void Logout()
+	{
+		_user = null;
+	}
+	
 	public User getUser()
 	{
 		return _user;

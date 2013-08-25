@@ -2,6 +2,7 @@ package presentationLayer;
 
 import helpers.MyString;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -25,7 +26,8 @@ import entities.VehicularData.VehicularDatas;
 
 public class TabFactory 
 {
-	
+	//Panel Background: .setBackground(new Color(51,153,255));
+	//Panel Size: .setBounds(10, 11, 694, 430);
 	
 	public MyTab CreateSearchTab()
 	{
@@ -43,7 +45,14 @@ public class TabFactory
 	public MyTab CreateReservation()
 	{
 		JPanel panel = new JPanel();
+		panel.setLayout(null);
+		panel.add(Reservation());
 		return new MyTab(UserRole.Reception, panel, "New Reservation");
+	}
+	
+	private JPanel Reservation()
+	{
+		return new JPanel();
 	}
 	
 	public MyTab CreatePitch()
@@ -87,6 +96,7 @@ public class TabFactory
 		createGuest.setVisible(true);
 		createGuest.setBounds(10, 11, 694, 430);	
 		createGuest.setLayout(null);
+		createGuest.setBackground(new Color(51,153,255));
 		
 		JButton safe = new JButton("Safe");
 		safe.addActionListener(new ActionListener() 
@@ -229,6 +239,16 @@ public class TabFactory
 		}
 		vehicularData.setBounds(180, 231, 273, 23);
 		createGuest.add(vehicularData);
+		
+		JButton btnAddVehicular = new JButton("Add Vehicular");
+		btnAddVehicular.setBounds(460, 231, 112, 23);
+		btnAddVehicular.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				JOptionPane.showMessageDialog(null, "not implemented");
+			}
+		});
+		createGuest.add(btnAddVehicular);
 		
 		JLabel lblVehicularPlate = new JLabel("Vehicular Plate");
 		lblVehicularPlate.setBounds(10, 235, 112, 14);

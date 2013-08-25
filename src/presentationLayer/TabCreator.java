@@ -13,6 +13,11 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JMenuBar;
 
+import businessTier.SessionControl;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
 public class TabCreator {
 
 	private JFrame frame;
@@ -21,6 +26,7 @@ public class TabCreator {
 	private JMenuBar menuBar;
 	private JMenu mnFile;
 	private JMenuItem mntmLogoff;
+	private JMenuItem mntmRefresh;
 
 
 	//	/**
@@ -88,7 +94,18 @@ public class TabCreator {
 		mnFile = new JMenu("File");
 		menuBar.add(mnFile);
 		
+		mntmRefresh = new JMenuItem("Refresh");
+		mnFile.add(mntmRefresh);
+		
 		mntmLogoff = new JMenuItem("Logoff");
+		mntmLogoff.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				SessionControl.Instance().Logout();
+				frame.setVisible(false);
+				new Login();
+			}
+		});
 		mnFile.add(mntmLogoff);
 		
 		///////

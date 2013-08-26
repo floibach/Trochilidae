@@ -11,8 +11,9 @@ public class Guest
 	private MyDate _birthDay;
 	private Address _address;
 	private int _equipment;
+	private int _vehicular;
 	
-	public Guest(String preName, String lastName, Address address, String idNumber, MyDate birthday, int equipment)
+	public Guest(String preName, String lastName, Address address, String idNumber, MyDate birthday, int equipment, int vehicular)
 	{
 		_preName = preName;
 		_lastName = lastName;
@@ -20,11 +21,16 @@ public class Guest
 		_idNumber = idNumber;
 		_birthDay = birthday;
 		_equipment = equipment;
+		_vehicular = vehicular;
 	}
 	
 	public void safeGuestToDB()
 	{
 		GuestAdministration.SafeGuest(this);
+	}
+	
+	public int get_vehicular() {
+		return _vehicular;
 	}
 
 	public String get_preName() {

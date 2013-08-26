@@ -72,11 +72,15 @@ public class TabCreator {
 		_tabs = new ArrayList<MyTab>();
 		TabFactory tabFactory = new TabFactory();
 
-		_tabs.add(tabFactory.CreateReservation());
+
 		_tabs.add(tabFactory.CreateGuests());
+		_tabs.add(tabFactory.CreateReservation());
 	}
 
-
+	public void Refresh()
+	{
+		
+	}
 	private void initialize() 
 	{
 		frame = new JFrame();

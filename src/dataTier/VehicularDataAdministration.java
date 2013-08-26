@@ -22,9 +22,10 @@ public class VehicularDataAdministration
 		{
 			while (rs.next()) 
 			{
-				String licensePlate = rs.getString(1);
-				String vehicularType = rs.getString(2);
-				results.add(new VehicularData(licensePlate,vehicularType));
+				int id = rs.getInt(1);
+				String licensePlate = rs.getString(2);
+				String vehicularType = rs.getString(3);
+				results.add(new VehicularData(id,licensePlate,vehicularType));
 			}
 		} 
 		catch (Exception e) 

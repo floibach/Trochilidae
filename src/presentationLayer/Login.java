@@ -1,7 +1,6 @@
 package presentationLayer;
 
 import helpers.CharArray;
-
 import java.awt.Button;
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -25,12 +24,21 @@ public class Login {
 	private JFrame frame;
 	private JPasswordField password;
 	private TextField userName;
+	private static String _hostname = "localhost";
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) 
 	{
+		if(0 < args.length)
+		{
+			if(null!=args[0] && 0 < args[0].length())
+			{
+				_hostname = args[0];
+			}
+		}
+
 		EventQueue.invokeLater(new Runnable() 
 		{
 			public void run() 
@@ -46,6 +54,11 @@ public class Login {
 				}
 			}
 		});
+	}
+
+	public static String getHostname() 
+	{
+		return _hostname;
 	}
 
 	/**

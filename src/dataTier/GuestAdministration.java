@@ -34,8 +34,9 @@ public class GuestAdministration
 				MyDate birthday;
 				birthday = new MyDate(rs.getString(8));
 				int equipment = rs.getInt(9);
+				int vehicular = rs.getInt(10);
 				Address address = new Address(city,zip,street,Streetnumber);
-				results.add(new Guest(preName,lastName,address,id,birthday,equipment));
+				results.add(new Guest(preName,lastName,address,id,birthday,equipment,vehicular));
 
 
 			}
@@ -49,16 +50,29 @@ public class GuestAdministration
 
 	public static void SafeGuest(Guest guest)
 	{
-		String query = 	"INSERT INTO `trochilidae`.`guests` (`id`, `peName`, `lastName`, `zipcode`, `city`, `street`, " +
-						"`streetNumber`, `birthday`, `equipmentID`)" + "VALUES ('" + guest.get_idNumber() + "', '" + guest.get_preName() +
+		String query = 	"INSERT INTO `trochilidae`.`guests` (`id`, `preName`, `lastName`, `zipcode`, `city`, `street`, " +
+						"`streetNumber`, `birthday`, `equipmentID`, `vihicularDataID`)" + "VALUES ('" + guest.get_idNumber() + "', '" + guest.get_preName() +
 						"', '" + guest.get_lastName() + "', '" + guest.getAddress().get_zip() + "', '" + guest.getAddress().get_city() + 
 						"', '" + guest.getAddress().get_street() + "', '" + guest.getAddress().get_streetNumber() + 
-						"', '" + guest.get_birthDay().GetSQLDate() + "', '" + guest.get_equipment() + "');";
+						"', '" + guest.get_birthDay().GetSQLDate() + "', '" + guest.get_equipment() + 
+						"', '"+ guest.get_vehicular() + "');";
 		DataBaseController.ExecuteQuery(query);
 	}
 	
-	public static void UpdateGuest()
+	public static void UpdateGuest(Guest oldGuest, Guest newGuest)
 	{
-		
+		String query = 	"UPDATE `trochilidae`.`guests` SET " +
+						"`id`='" + newGuest.get_idNumber() +
+						"', `preName`='" + newGuest.get_preName() + 
+						"', `lastName`='" + newGuest.get_lastName() + 
+						"', `zipcode`='" + newGuest.getAddress().get_zip() + 
+						"', `city`='" + newGuest.getAddress().get_city() +
+						"', `street`='" + newGuest.getAddress().get_street() +
+						"', `streetNumber`='" + newGuest.getAddress().get_streetNumber() + 
+						"', `birthday`='" + newGuest.get_birthDay().GetSQLDate() +
+						"', `equipmentID`='" + newGuest.get_equipment() + 
+						"', `vihicularDataID`='" + newGuest.get_vehicular() +
+						"' WHERE `id`='" + oldGuest.get_idNumber() + "';";
+		DataBaseController.ExecuteQuery(query);
 	}
 }

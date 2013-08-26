@@ -35,8 +35,11 @@ public class Guests
 		guest.safeGuestToDB();
 	}
 	
-	public void UpdateGuest(Guest guest)
+	public void UpdateGuest(Guest oldGuest, Guest newGuest)
 	{
-		
+		int index = _guests.indexOf(oldGuest);
+		_guests.add(index, newGuest);
+		_guests.remove(index+1);
+		GuestAdministration.UpdateGuest(oldGuest,newGuest);
 	}
 }

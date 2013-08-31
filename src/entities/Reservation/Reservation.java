@@ -1,7 +1,5 @@
 package entities.Reservation;
 
-import java.util.ArrayList;
-
 import dataTier.ReservationAdministration;
 
 import entities.MyDate;
@@ -11,19 +9,19 @@ import entities.PitchArea.Pitch;
 public class Reservation 
 {
 	private Guest _guest;
-	private ArrayList<Pitch> _pitches;
+	private Pitch _pitch;
 	private MyDate _arrival;
 	private MyDate _depature;
 	
-	public Reservation(Guest guest, ArrayList<Pitch> pitches, MyDate arrival, MyDate depature)
+	public Reservation(Guest guest, Pitch pitch, MyDate arrival, MyDate depature)
 	{
 		_guest = guest;
-		_pitches = pitches;
+		_pitch = pitch;
 		_arrival = arrival;
 		_depature = depature;
 	}
 	
-	public void SafeToDb()
+	protected void SafeToDb()
 	{
 		ReservationAdministration.Safe(this);
 	}
@@ -32,8 +30,8 @@ public class Reservation
 		return _guest;
 	}
 
-	public ArrayList<Pitch> get_pitches() {
-		return _pitches;
+	public Pitch get_pitch() {
+		return _pitch;
 	}
 
 	public MyDate get_arrival() {

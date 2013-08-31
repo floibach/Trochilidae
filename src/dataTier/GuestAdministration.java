@@ -12,7 +12,7 @@ public class GuestAdministration
 {	
 	public static ArrayList<Guest> GetGuests()
 	{
-		String query = "SELECT * FROM trochilidae.guests;";
+		String query = "SELECT * FROM guests;";
 		ArrayList<Guest> results = ConvertResults(DataBaseController.GetResults(query));
 		return results;
 	}
@@ -36,6 +36,7 @@ public class GuestAdministration
 				int equipment = rs.getInt(9);
 				int vehicular = rs.getInt(10);
 				Address address = new Address(city,zip,street,Streetnumber);
+				
 				results.add(new Guest(preName,lastName,address,id,birthday,equipment,vehicular));
 
 
@@ -50,7 +51,7 @@ public class GuestAdministration
 
 	public static void SafeGuest(Guest guest)
 	{
-		String query = 	"INSERT INTO `trochilidae`.`guests` (`id`, `preName`, `lastName`, `zipcode`, `city`, `street`, " +
+		String query = 	"INSERT INTO `guests` (`id`, `preName`, `lastName`, `zipcode`, `city`, `street`, " +
 						"`streetNumber`, `birthday`, `equipmentID`, `vihicularDataID`)" + "VALUES ('" + guest.get_idNumber() + "', '" + guest.get_preName() +
 						"', '" + guest.get_lastName() + "', '" + guest.getAddress().get_zip() + "', '" + guest.getAddress().get_city() + 
 						"', '" + guest.getAddress().get_street() + "', '" + guest.getAddress().get_streetNumber() + 
@@ -61,7 +62,7 @@ public class GuestAdministration
 	
 	public static void UpdateGuest(Guest oldGuest, Guest newGuest)
 	{
-		String query = 	"UPDATE `trochilidae`.`guests` SET " +
+		String query = 	"UPDATE `guests` SET " +
 						"`id`='" + newGuest.get_idNumber() +
 						"', `preName`='" + newGuest.get_preName() + 
 						"', `lastName`='" + newGuest.get_lastName() + 

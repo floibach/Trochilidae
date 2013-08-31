@@ -85,14 +85,14 @@ public class TabCreator {
 	{
 		frame = new JFrame();
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 700, 480);
+		frame.setBounds(100, 100, 700, 500);
 		frame.setBackground(new Color(51,153,255));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setIconImage(new ImageIcon("./Lib/ico.png").getImage());
 		
 		_tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		_tabbedPane.setBounds(0, 22, 694, 430);
+		_tabbedPane.setBounds(0, 22, 694, 450);
 		_tabbedPane.setBackground(new Color(51,153,255));
 		frame.getContentPane().add(_tabbedPane);
 				

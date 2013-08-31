@@ -24,7 +24,7 @@ public class Guest
 		_vehicular = vehicular;
 	}
 	
-	public void safeGuestToDB()
+	protected void safeGuestToDB()
 	{
 		GuestAdministration.SafeGuest(this);
 	}

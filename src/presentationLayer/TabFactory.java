@@ -26,14 +26,24 @@ import entities.Equipment.Equipments;
 import entities.Guest.Address;
 import entities.Guest.Guest;
 import entities.Guest.Guests;
+import entities.PitchArea.Area;
+import entities.PitchArea.Areas;
+import entities.PitchArea.Pitch;
+import entities.PitchArea.Pitches;
 import entities.VehicularData.VehicularData;
 import entities.VehicularData.VehicularDatas;
+import entities.Reservation.Reservation;
+import entities.Reservation.Reservations;
 
 public class TabFactory 
 {
 	//Panel Background: .setBackground(new Color(51,153,255));
 	//Panel Size: .setBounds(10, 11, 694, 430);
 	
+	
+	private int _panelWidth = 694;
+	private int _panelHeight = 430;
+		
 	public MyTab CreateSearchTab()
 	{
 		JPanel panel = new JPanel();
@@ -46,15 +56,15 @@ public class TabFactory
 		JPanel panel = new JPanel();
 		return new MyTab(UserRole.Reception, panel, "SelectArea");
 	}
-	
+	JPanel myReservationPanel;
 	public MyTab CreateReservation()
 	{
-		JPanel panel = new JPanel();
-		panel.setLayout(null);
-		panel.add(Reservation());
-		panel.add(EditAGuest());
-		panel.add(SelectPitch());
-		return new MyTab(UserRole.Reception, panel, "New Reservation");
+		myReservationPanel = new JPanel();
+		myReservationPanel.setLayout(null);
+		myReservationPanel.add(Reservation());
+		myReservationPanel.add(EditAGuest());
+		myReservationPanel.add(SelectArea());
+		return new MyTab(UserRole.Reception, myReservationPanel, "New Reservation");
 	}
 	
 	private void ResetGuestValues()
@@ -91,7 +101,7 @@ public class TabFactory
 	{
 		editGuest = new JPanel();
 		editGuest.setVisible(false);
-		editGuest.setBounds(10, 11, 694, 430);	
+		editGuest.setBounds(0, 0, 694, 430);	
 		editGuest.setLayout(null);
 		editGuest.setBackground(new Color(51,153,255));
 		
@@ -262,12 +272,92 @@ public class TabFactory
 		return editGuest;
 	}
 
+	JPanel areaSelection;
+	private JPanel SelectArea()
+	{
+		areaSelection = new JPanel();
+		areaSelection = new JPanel();
+		areaSelection.setBounds(0,0, _panelWidth, _panelHeight);
+		areaSelection.setVisible(false);
+		areaSelection.setBackground(new Color(51,153,255));
+		areaSelection.setLayout(null);
+		
+		
+		
+		int buttonWidth = _panelWidth   / (Areas.Instance().getAreas().size()/2);
+		int buttonHeight = _panelHeight / (Areas.Instance().getAreas().size()/2);
+		
+		for(Area a: Areas.Instance().getAreas())
+		{
+			AreaButton button = new AreaButton(a);
+			button.SetButtonProperties(buttonWidth, buttonHeight);
+			button.addMouseListener(new MouseAdapter() 
+			{
+				@Override
+				public void mouseClicked(MouseEvent e) 
+				{
+					AreaButton clickedButton = ((AreaButton)e.getComponent());
+					selectedArea = clickedButton.GetArea().get_areaId();
+					myReservationPanel.add(SelectPitch());
+					pitchSelection.setVisible(true);
+					areaSelection.setVisible(false);
+				}
+			});
+			areaSelection.add(button);
+		}
+		
+		return areaSelection;
+	}
 	
+	JPanel pitchSelection;
+	ArrayList<JButton> pitchButtons;
+	int selectedArea = 0;
 	private JPanel SelectPitch()
 	{
-		JPanel panel = new JPanel();
-		return panel;
+		pitchSelection = new JPanel();
+		pitchSelection.setBounds(0,0, _panelWidth, _panelHeight);
+		pitchSelection.setVisible(false);
+		pitchSelection.setBackground(new Color(51,153,255));
+		pitchSelection.setLayout(null);
+		
+		int buttonWidth = _panelWidth / 10;
+		int buttonHeight = _panelHeight/10;
+		pitchButtons = new ArrayList<JButton>();
+		
+		for(Pitch p : Pitches.Instance().getPitches())
+		{
+			if(p.get_area() == selectedArea)
+			{
+				PitchButton button = new PitchButton(p);
+				button.SetButtonProperties(buttonWidth, buttonHeight);
+				button.addMouseListener(new MouseAdapter() 
+				{
+					@Override
+					public void mouseClicked(MouseEvent e) 
+					{
+						PitchButton clickedButton = ((PitchButton)e.getComponent());
+						if(clickedButton.GetPitch().is_isOccupied())
+						{
+							JOptionPane.showMessageDialog(null, "pitch already taken");
+							return;
+						}
+						pitchSelection.setVisible(false);
+						reservation.setVisible(true);
+						selectedPitches.SetPitch(clickedButton.GetPitch());
+					}
+				});
+				pitchButtons.add(button);
+			}
+		}
+		
+		for(JButton b : pitchButtons)
+		{
+			pitchSelection.add(b);
+		}
+		
+		return pitchSelection;
 	}
+	
 	private void RefreshGuests()
 	{
 		guestList.removeAllItems();
@@ -277,7 +367,8 @@ public class TabFactory
 			guestList.addItem(g.get_idNumber());
 		}
 	}
-	private JTextField pitches;
+	
+	private PitchTextField selectedPitches;
 	private JTextField arrivalDay;
 	private JTextField endDay;
 	private JTextField arrivalMonth;
@@ -296,7 +387,7 @@ public class TabFactory
 	{
 		reservation = new JPanel();
 		reservation.setVisible(true);
-		reservation.setBounds(10, 11, 694, 430);
+		reservation.setBounds(0, 0, 694, 430);
 		reservation.setBackground(new Color(51,153,255));
 		reservation.setLayout(null);
 		
@@ -306,10 +397,13 @@ public class TabFactory
 		
 		guestList = new JComboBox<String>();
 		guestList.setBounds(180, 8, 272, 20);
-		guestList.addPopupMenuListener(new PopupMenuListener() {
-			public void popupMenuCanceled(PopupMenuEvent arg0) {
+		guestList.addPopupMenuListener(new PopupMenuListener() 
+		{
+			public void popupMenuCanceled(PopupMenuEvent arg0) 
+			{
 			}
-			public void popupMenuWillBecomeInvisible(PopupMenuEvent arg0) {
+			public void popupMenuWillBecomeInvisible(PopupMenuEvent arg0) 
+			{
 			}
 			public void popupMenuWillBecomeVisible(PopupMenuEvent arg0) 
 			{
@@ -319,30 +413,31 @@ public class TabFactory
 		RefreshGuests();
 		reservation.add(guestList);
 		
-		lblBegin = new JLabel("Begin");
-		lblBegin.setBounds(10, 76, 64, 14);
+		lblBegin = new JLabel("Begin (DD.MM.YYYY)");
+		lblBegin.setBounds(10, 76, 200, 14);
 		reservation.add(lblBegin);
 		
-		lblEnd = new JLabel("End");
-		lblEnd.setBounds(10, 107, 46, 14);
+		lblEnd = new JLabel("End (DD.MM.YYYY)");
+		lblEnd.setBounds(10, 107, 200, 14);
 		reservation.add(lblEnd);
 		
 		lblPitch = new JLabel("Pitch");
 		lblPitch.setBounds(10, 138, 79, 14);
 		reservation.add(lblPitch);
 		
-		pitches = new JTextField();
-		pitches.addMouseListener(new MouseAdapter() 
+		selectedPitches = new PitchTextField();
+		selectedPitches.addMouseListener(new MouseAdapter() 
 		{
 			@Override
 			public void mouseClicked(MouseEvent arg0) 
 			{
-
+				reservation.setVisible(false);
+				areaSelection.setVisible(true);
 			}
 		});
-		pitches.setBounds(180, 135, 272, 20);
-		reservation.add(pitches);
-		pitches.setColumns(10);
+		selectedPitches.setBounds(180, 135, 272, 20);
+		reservation.add(selectedPitches);
+		selectedPitches.setColumns(10);
 		
 		arrivalDay = new JTextField();
 		arrivalDay.setBounds(180, 73, 60, 20);
@@ -354,15 +449,7 @@ public class TabFactory
 		reservation.add(endDay);
 		endDay.setColumns(10);
 				
-		btnSafe = new JButton("Safe");
-		btnSafe.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent e) 
-			{
-			}
-		});
-		btnSafe.setBounds(363, 166, 89, 23);
-		reservation.add(btnSafe);
+		
 		
 		btnEdit = new JButton("edit");
 		btnEdit.addActionListener(new ActionListener() 
@@ -411,7 +498,78 @@ public class TabFactory
 		reservation.add(endYear);
 		endYear.setColumns(10);
 		
+		btnSafe = new JButton("Safe");
+		btnSafe.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				if(ValidateReservation())
+				{
+					try 
+					{
+						int aYear = Integer.parseInt(arrivalYear.getText()+"");
+						int aMonth = Integer.parseInt(arrivalMonth.getText());
+						int aDay = Integer.parseInt(arrivalDay.getText());
+						int dYear = Integer.parseInt(endYear.getText());
+						int dMonth = Integer.parseInt(endMonth.getText());
+						int dDay = Integer.parseInt(endDay.getText());
+						
+						MyDate arrival = new MyDate(aYear, aMonth, aDay);
+						MyDate depature = new MyDate(dYear,dMonth, dDay);
+						
+						Reservation r= new Reservation(	Guests.Instance().GetGuests().get(guestList.getSelectedIndex()),
+														selectedPitches.GetPitch(),
+														arrival,
+														depature);
+						Reservations.Instance().SafeReservation(r);
+						selectedPitches.GetPitch().OccupyPitch();
+						JOptionPane.showMessageDialog(null, "success");
+					} 
+					catch (Exception e1) 
+					{
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
+		btnSafe.setBounds(363, 166, 89, 23);
+		reservation.add(btnSafe);
+		
 		return reservation;
+	}
+	
+	private boolean ValidateReservation()
+	{
+		if( selectedPitches.getText().equals(MyString.Empty()))
+		{
+			return false;
+		}
+		if( arrivalDay.getText().equals(MyString.Empty()))
+		{
+			return false;
+		}
+		if( endDay.getText().equals(MyString.Empty()))
+		{
+			return false;
+		}
+		if( arrivalMonth.getText().equals(MyString.Empty()))
+		{
+			return false;
+		}
+		if( arrivalYear.getText().equals(MyString.Empty()))
+		{
+			return false;
+		}
+		if( endMonth.getText().equals(MyString.Empty()))
+		{
+			return false;
+		}
+		if( endYear.getText().equals(MyString.Empty()))
+		{
+			return false;
+		}
+		
+		return true;
 	}
 	
 
@@ -502,7 +660,7 @@ public class TabFactory
 	{
 		createGuest = new JPanel();
 		createGuest.setVisible(true);
-		createGuest.setBounds(10, 11, 694, 430);	
+		createGuest.setBounds(0, 0, 694, 430);	
 		createGuest.setLayout(null);
 		createGuest.setBackground(new Color(51,153,255));
 		
@@ -633,7 +791,7 @@ public class TabFactory
 						Guest newGuest =  new Guest(	createGuestPreName.getText(),createGuestLastName.getText(),address, 
 														createGuestIdNumber.getText(), birthdate,createGuestEquipment.getSelectedIndex(), 
 														createGuestVehicularData.getSelectedIndex());
-						newGuest.safeGuestToDB();
+						Guests.Instance().AddGuest(newGuest);;
 						ResetGuestValues();
 						RefreshGuests();
 						JOptionPane.showMessageDialog(null, "Success");

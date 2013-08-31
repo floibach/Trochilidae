@@ -11,7 +11,7 @@ public class EquipmentAdministration
 	
 	public static ArrayList<Equipment> GetEquipments()
 	{	
-		String query = "SELECT * FROM trochilidae.equipment;";
+		String query = "SELECT * FROM equipment;";
 		ArrayList<Equipment> results = ConvertResults(DataBaseController.GetResults(query));
 
 		return results;

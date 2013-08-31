@@ -9,7 +9,7 @@ public class VehicularDataAdministration
 {
 	public static ArrayList<VehicularData> GetVehicularData()
 	{
-		String query = "SELECT * FROM trochilidae.vehiculardata;";
+		String query = "SELECT * FROM vehiculardata;";
 		ArrayList<VehicularData> results = ConvertResults(DataBaseController.GetResults(query));
 		return results;
 	}
